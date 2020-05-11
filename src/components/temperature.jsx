@@ -6,10 +6,11 @@ import "react-circular-progressbar/dist/styles.css";
 export default function Temperature(props) {
   var styles = {
     path: {
-      stroke: "rgba(62,152,199,100)",
+      // stroke: "rgba(62,152,199,100)",
+      stroke: "rgba(162,90,251,100)"
     },
     text: {
-      fill: "#2d6481",
+      fill: "#bb86fc",
     },
   };
 

@@ -1,12 +1,8 @@
 import React from "react";
 import SyncLoader from "react-spinners/SyncLoader";
-import { Container, Grid, TextField, IconButton } from "@material-ui/core";
-
-import CheckIcon from '@material-ui/icons/Check';
+import { Container, Grid, TextField } from "@material-ui/core";
 
 import Temperature from "./components/temperature";
-
-const ws = new WebSocket("ws://192.168.50.184:3005");
 
 const classes = {
   margin: 0,
@@ -25,16 +21,19 @@ class App extends React.Component {
       deadzone: null,
       on: true,
     };
+    this.ws = null
   }
 
   componentDidMount() {
+    this.ws = new WebSocket("ws://192.168.50.184:3005");
+
     const msg = JSON.stringify({ action: "receive" });
-    ws.onopen = () => {
+    this.ws.onopen = () => {
       console.log("websocket connected");
-      ws.send(msg);
+      this.ws.send(msg);
     };
 
-    ws.onmessage = (event) => {
+    this.ws.onmessage = (event) => {
       console.log(event);
       const { temperature, target, deadzone, on } = JSON.parse(event.data);
       console.log(
@@ -49,16 +48,21 @@ class App extends React.Component {
       });
     };
 
+    this.ws.onclose = () => {
+      console.log("disconnected")
+      this.ws = new WebSocket("ws://192.168.50.184:3005");
+    }
+
     setInterval(() => {
-      if (ws != null) {
+      if (this.ws != null) {
         const update_msg = JSON.stringify({
           action: "update",
           target: this.state.target,
         })
         
-        ws.send(update_msg);
+        this.ws.send(update_msg);
         console.log(msg);
-        ws.send(msg);
+        this.ws.send(msg);
 
       }
     }, 5000);
@@ -83,7 +87,7 @@ class App extends React.Component {
           <Temperature temperature={this.state.temperature} />
           <div style={{ marginTop: 20 }}>
             <TextField
-              label="Target Temperature"
+              label="Target"
               type="number"
               value={this.state.target}
               onChange={this.updateTarget}
