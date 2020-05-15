@@ -1,8 +1,9 @@
 import React from "react";
-import SyncLoader from "react-spinners/SyncLoader";
+import { SyncLoader, ClockLoader } from "react-spinners";
 import { Container, Grid, TextField } from "@material-ui/core";
 
 import Temperature from "./components/temperature";
+import Target from "./components/target";
 
 const classes = {
   margin: 0,
@@ -21,7 +22,7 @@ class App extends React.Component {
       deadzone: null,
       on: true,
     };
-    this.ws = null
+    this.ws = null;
   }
 
   componentDidMount() {
@@ -41,37 +42,37 @@ class App extends React.Component {
       );
 
       this.setState({
-        temperature: parseInt(temperature),
-        target: parseInt(target),
-        deadzone: parseInt(deadzone),
-        on: parseInt(on),
+        temperature: temperature,
+        target: target,
+        deadzone: deadzone,
+        on: on,
       });
     };
 
     this.ws.onclose = () => {
-      console.log("disconnected")
+      console.log("disconnected");
       this.ws = new WebSocket("ws://192.168.50.184:3005");
-    }
+    };
 
     setInterval(() => {
       if (this.ws != null) {
         const update_msg = JSON.stringify({
           action: "update",
           target: this.state.target,
-        })
-        
+        });
+
         this.ws.send(update_msg);
         console.log(msg);
         this.ws.send(msg);
-
       }
     }, 5000);
   }
 
-  updateTarget = (e) => {
-    console.log(e.target.value)
-    this.setState({target: e.target.value})
-  }
+  updateTarget = (target, callback) => {
+    // console.log(e.target.value);
+    this.setState({ target: target });
+    setTimeout(callback, 500);
+  };
 
   handleChange = (e) => {
     console.log(this.state.text);
@@ -84,15 +85,18 @@ class App extends React.Component {
     return (
       <>
         <Grid item xs={4}>
-          <Temperature temperature={this.state.temperature} />
-          <div style={{ marginTop: 20 }}>
-            <TextField
-              label="Target"
-              type="number"
-              value={this.state.target}
-              onChange={this.updateTarget}
-            />
-          </div>
+          <Temperature
+            temperature={this.state.temperature}
+            target={this.state.target}
+            deadzone={this.state.deadzone}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Target
+            updateTarget={(target, callback) =>
+              this.updateTarget(target, callback)
+            }
+          />
         </Grid>
       </>
     );
@@ -109,7 +113,8 @@ class App extends React.Component {
           direction="row"
         >
           {this.state == null || this.state.loading ? (
-            <SyncLoader color={"#3e98c7"} />
+            // <SyncLoader color={"#3e98c7"} />
+            <ClockLoader color={"#3e98c7"} />
           ) : (
             this.renderClimate()
           )}
