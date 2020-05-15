@@ -93,6 +93,7 @@ class App extends React.Component {
         </Grid>
         <Grid item xs={4}>
           <Target
+            target={this.state.target}
             updateTarget={(target, callback) =>
               this.updateTarget(target, callback)
             }
