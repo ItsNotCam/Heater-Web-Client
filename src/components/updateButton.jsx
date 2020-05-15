@@ -36,7 +36,6 @@ export default class UpdateButton extends React.Component {
 
     // temporary timeout for testing purposes
     this.props.updateTarget(() => {
-      console.log("callback");
       this.setState({ loading: false, done: true });
       setTimeout(() => this.setState({ done: false, clickable: true }), 1000);
     });

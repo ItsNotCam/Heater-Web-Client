@@ -1,6 +1,6 @@
 import React from "react";
-import { SyncLoader, ClockLoader } from "react-spinners";
-import { Container, Grid, TextField } from "@material-ui/core";
+import { ClockLoader } from "react-spinners";
+import { Container, Grid } from "@material-ui/core";
 
 import Temperature from "./components/temperature";
 import Target from "./components/target";
@@ -35,7 +35,7 @@ class App extends React.Component {
     };
 
     this.ws.onmessage = (event) => {
-      console.log(event);
+      // console.log(event);
       const { temperature, target, deadzone, on } = JSON.parse(event.data);
       console.log(
         `temp = ${temperature}\ntarget = ${target}\ndeadzone = ${deadzone}\non = ${on}`
@@ -65,11 +65,10 @@ class App extends React.Component {
         console.log(msg);
         this.ws.send(msg);
       }
-    }, 5000);
+    }, 2500);
   }
 
   updateTarget = (target, callback) => {
-    // console.log(e.target.value);
     this.setState({ target: target });
     setTimeout(callback, 500);
   };
@@ -114,7 +113,6 @@ class App extends React.Component {
           direction="row"
         >
           {this.state == null || this.state.loading ? (
-            // <SyncLoader color={"#3e98c7"} />
             <ClockLoader color={"#3e98c7"} />
           ) : (
             this.renderClimate()

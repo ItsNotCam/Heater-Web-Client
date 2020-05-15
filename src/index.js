@@ -12,7 +12,7 @@ const theme = createMuiTheme({
 const body = (
   // <ThemeProvider theme={theme}>
   //   <CssBaseline />
-    <App />
+  <App />
   // </ThemeProvider>
 );
 
