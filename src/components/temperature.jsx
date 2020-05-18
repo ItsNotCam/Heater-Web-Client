@@ -17,7 +17,6 @@ export default function Temperature(props) {
     /* GREEN
     stroke = "rgba(20,162,102,100)";
     fill = "#14a266"; */
-
     stroke = "rgba(168,129,214,100)";
     fill = "#a881d6";
   }

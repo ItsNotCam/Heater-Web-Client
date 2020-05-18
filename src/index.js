@@ -10,10 +10,10 @@ const theme = createMuiTheme({
 });
 
 const body = (
-  // <ThemeProvider theme={theme}>
-  //   <CssBaseline />
-  <App />
-  // </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>
 );
 
 ReactDOM.render(body, document.getElementById("root"));

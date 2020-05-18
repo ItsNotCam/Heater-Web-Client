@@ -70,7 +70,7 @@ class App extends React.Component {
 
   updateTarget = (target, callback) => {
     this.setState({ target: target });
-    setTimeout(callback, 500);
+    callback();
   };
 
   handleChange = (e) => {
@@ -90,7 +90,7 @@ class App extends React.Component {
             deadzone={this.state.deadzone}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} style={{ marginTop: 50 }}>
           <Target
             target={this.state.target}
             updateTarget={(target, callback) =>
