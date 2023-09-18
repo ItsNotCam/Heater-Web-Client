@@ -1,9 +1,8 @@
 import React from "react";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { BarLoader } from "react-spinners";
-import DoneIcon from "@material-ui/icons/Done";
-import { IconButton } from "@material-ui/core";
+import DoneIcon from "@mui/icons-material/Done";
 
 const doneStyle = {
   marginRight: 5,
@@ -13,15 +12,23 @@ const doneStyle = {
   color: "#32CD32",
 };
 
-export default class UpdateButton extends React.Component {
-  super(props) {
+export interface IUpdateButtonProps {
+  updateTarget: (callback: () => void) => void;
+}
+
+export interface IUpdateButtonState {
+  loading: boolean;
+  done: boolean;
+  clickable: boolean;
+}
+
+export default class UpdateButton extends React.Component<IUpdateButtonProps, IUpdateButtonState> {
+  super(props: IUpdateButtonProps) {
     this.state = {
       loading: true,
       done: false,
       clickable: true,
     };
-
-    this.props = props;
   }
 
   componentDidMount = () => {
@@ -42,7 +49,9 @@ export default class UpdateButton extends React.Component {
     });
 
     this.props.updateTarget(() => {
-      this.setState({ loading: false, done: true });
+      this.setState(
+        { loading: false, done: true }
+      );
       setTimeout(() => this.setState({ done: false, clickable: true }), 1000);
     });
   };
@@ -54,10 +63,10 @@ export default class UpdateButton extends React.Component {
       height: 40,
       marginTop: 10,
       color: "#fff",
+      backgroundColor: "#fff"
     };
 
-    const variant =
-      this.state == null || this.state.loading ? "outlined" : "contained";
+    const variant = this.state == null || this.state.loading ? "outlined" : "contained";
     if (variant === "contained") {
       buttonStyle.backgroundColor = "#a881d6";
     }
@@ -70,7 +79,7 @@ export default class UpdateButton extends React.Component {
           onClick={this.updateTarget}
         >
           {this.state == null || this.state.loading ? (
-            <BarLoader size={10} color="#3e98c7" />
+            <BarLoader height={10} width={10} color="#3e98c7" />
           ) : (
             <span style={{ marginRight: 5 }}>Update</span>
           )}
