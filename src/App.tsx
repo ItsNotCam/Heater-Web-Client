@@ -1,7 +1,7 @@
 import React from "react";
-import { CircularProgress, Container, Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 
-import Temperature from "./components/temperature";
+import { Thermostat, IThermostatProps } from "./components/thermostat";
 import { TemperatureSocket } from "./TemperatureSocket";
 
 export interface IAppState {
@@ -30,7 +30,7 @@ class App extends React.Component<{}, IAppState> {
     };
 
     this.temperatureSocket = new TemperatureSocket({
-      updateStateCallback: this.updateTemperatureState,
+      updateTemperatureStateCallback: this.updateTemperatureState,
       setLoadedCallback: this.setLoaded
     });
   }
@@ -62,11 +62,16 @@ class App extends React.Component<{}, IAppState> {
       transform: "translate(-50%,-50%)",
     };
 
+    const temperatureProps: IThermostatProps = {
+      temperature: this.state.temperatureJSON,
+      ws: this.temperatureSocket,
+    }
+
     return (
       <Grid container spacing={2} alignContent="center" justifyContent="center" style={centeredDiv}>
         {this.state.loaded ? (
-          <div className="fade-in"> 
-            <Temperature {...this.state.temperatureJSON} /> 
+          <div>
+            <Thermostat {...temperatureProps} /> 
           </div>
         ) : (
           <CircularProgress />

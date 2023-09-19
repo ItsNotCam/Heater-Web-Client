@@ -1,0 +1,14 @@
+.temperature {
+    size: 60;
+    font-size: 60;
+    padding: 20;
+    user-select: none;
+}
+
+.temperature:hover {
+    cursor: pointer;
+}
+
+.temperature-text {
+    font-size: 25;
+}

@@ -1,8 +1,7 @@
 import { ITemperatureJSON } from "./App";
-var qs = require('qs');
 
 export interface ITemperatureSocketCallbacks {
-    updateStateCallback: (newState: ITemperatureJSON) => void;
+    updateTemperatureStateCallback: (newState: ITemperatureJSON) => void;
     setLoadedCallback: (loaded: boolean) => void;
 }
 
@@ -12,7 +11,7 @@ export class TemperatureSocket {
     setLoadedCallback: (loaded: boolean) => void;
 
     constructor(callbacks: ITemperatureSocketCallbacks) {
-        this.updateTemperatureStateCallback = callbacks.updateStateCallback
+        this.updateTemperatureStateCallback = callbacks.updateTemperatureStateCallback
         this.setLoadedCallback = callbacks.setLoadedCallback;
     }
     
