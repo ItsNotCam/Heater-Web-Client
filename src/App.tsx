@@ -1,7 +1,7 @@
 import React from "react";
 import { CircularProgress, Grid } from "@mui/material";
 
-import { Thermostat, IThermostatProps } from "./components/thermostat";
+import { Thermostat, IThermostatProps } from "./components/Thermostat";
 import { TemperatureSocket } from "./TemperatureSocket";
 
 export interface IAppState {

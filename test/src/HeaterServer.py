@@ -14,6 +14,7 @@ async def handleConnection(websocket):
 async def sendTemperatureData(websocket, tempSocket):
     while True:
         tempSocket.data["temperature"] = random.randint(65, 85)
+        tempSocket.data["target"] = random.randint(65, 85)
         dataJSON = json.dumps(tempSocket.data)
         print(dataJSON)
         await websocket.send(dataJSON)
