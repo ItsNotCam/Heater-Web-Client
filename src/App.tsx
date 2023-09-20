@@ -10,6 +10,7 @@ export interface IAppState {
 }
 
 export interface ITemperatureJSON {
+  action: string;
   temperature: number;
   target: number;
   on: boolean;
@@ -22,6 +23,7 @@ class App extends React.Component<{}, IAppState> {
     super(props);
     this.state = {
       temperatureJSON: {
+        action: 'GET',
         temperature: 0,
         target: 0,
         on: false
@@ -46,6 +48,7 @@ class App extends React.Component<{}, IAppState> {
   updateTemperatureState = (newState: ITemperatureJSON): void => {
     this.setState({ 
       temperatureJSON: {
+        action: "GET",
         temperature: newState.temperature,
         target: newState.target,
         on: newState.on
@@ -70,11 +73,9 @@ class App extends React.Component<{}, IAppState> {
     return (
       <Grid container spacing={2} alignContent="center" justifyContent="center" style={centeredDiv}>
         {this.state.loaded ? (
-          <div>
-            <Thermostat {...temperatureProps} /> 
-          </div>
+          <Thermostat {...temperatureProps} /> 
         ) : (
-          <CircularProgress />
+          <CircularProgress size={150} />
         )}
       </Grid>
     );

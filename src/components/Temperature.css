@@ -5,6 +5,10 @@
     user-select: none;
 }
 
+.no-select {
+    user-select: none;
+}
+
 .temperature:hover {
     cursor: pointer;
 }

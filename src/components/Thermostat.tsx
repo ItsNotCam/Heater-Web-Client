@@ -1,22 +1,28 @@
 import '@fontsource/roboto/300.css';
 import './Temperature.css';
 
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { ITemperatureJSON } from "../App";
 import React from 'react';
-import { TemperatureSocket } from '../TemperatureSocket';
-import { Button, Grid, IconButton, TextField } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RefreshIcon from '@mui/icons-material/Refresh';
+
+import { CircularProgressbar } from "react-circular-progressbar";
+import { Grid, IconButton, TextField, CircularProgress } from '@mui/material';
+import { ITemperatureJSON } from "../App";
+import { CircularProgressbarStyles } from 'react-circular-progressbar/dist/types';
+import { TemperatureSocket } from '../TemperatureSocket';
 
 export interface IThermostatProps {
   temperature: ITemperatureJSON;
   ws: TemperatureSocket;
 }
 
+enum TargetTemperatureState {
+  DISPLAY, EDITING, UPDATING
+}
+
 export interface IThermostatState {
-  isEditingTargetTemperature: boolean;
+  targetTemperatureState: TargetTemperatureState;
   editedTemperature: number;
 }
 
@@ -24,20 +30,21 @@ export class Thermostat extends React.Component<IThermostatProps, IThermostatSta
   constructor(props: IThermostatProps) {
     super(props);
     this.state = { 
-      isEditingTargetTemperature: false,
-      editedTemperature: props.temperature.target
+      targetTemperatureState: TargetTemperatureState.DISPLAY,
+      editedTemperature: props.temperature.target,
     }
   }
 
-  setEditing = (editing: boolean): void => {
-    this.setState({isEditingTargetTemperature: editing})
+  setTargetTempState = (newState: TargetTemperatureState): void => {
+    this.setState({ targetTemperatureState: newState })
   }
   
   applyEditedTemperature = (): void => {
-    this.props.ws.changeTemperatureTarget(this.state.editedTemperature)
-    this.setState({
-      isEditingTargetTemperature: false
-    });
+    this.props.ws.changeTemperatureTarget(this.state.editedTemperature);
+    this.setTargetTempState(TargetTemperatureState.UPDATING);
+    setTimeout(() => {
+      this.setTargetTempState(TargetTemperatureState.DISPLAY);
+    }, 500);
   }
 
   updateEditedTemperature = (event: any): void => {
@@ -48,32 +55,50 @@ export class Thermostat extends React.Component<IThermostatProps, IThermostatSta
 
   resetEditedTemperature = (): void => {
     this.setState({
-      isEditingTargetTemperature: false,
+      targetTemperatureState: TargetTemperatureState.DISPLAY,
       editedTemperature: this.props.temperature.target
     })
   }
 
-  temperatureComponent = (): JSX.Element => {
+  renderTemperatureTargetComponent = (): JSX.Element => {
+    switch(this.state.targetTemperatureState) {
+      case TargetTemperatureState.DISPLAY:
+        return this.renderDisplayingTarget();
+      case TargetTemperatureState.EDITING:
+        return this.renderEditingTarget();
+      case TargetTemperatureState.UPDATING:
+        return this.renderUpdatingTarget();
+    }
+  }
+
+  renderUpdatingTarget = (): JSX.Element => {
+    return (
+      <div style={{paddingTop: 48, paddingBottom: 20}}>
+        <CircularProgress size={50} />
+      </div>
+    )
+  }
+
+  renderDisplayingTarget = (): JSX.Element => {
     const { target } = this.props.temperature;
-
     const temperatureStyle: React.CSSProperties = {
-      fontSize: 60
+      fontSize: 120
     }
 
+    return (
+      <span style={temperatureStyle} className='temperature' 
+        onClick={() => this.setTargetTempState(TargetTemperatureState.EDITING)}>
+        {target}
+      </span>
+    )
+  }
 
-    if(!this.state.isEditingTargetTemperature) {
-      return (
-        <span style={temperatureStyle} className='temperature' onClick={() => this.setEditing(true)}>
-          {target}
-        </span>
-      )
-    }
-
+  renderEditingTarget = (): JSX.Element => {
     const gridStyle: React.CSSProperties = {
       marginTop: 10,
       marginBottom: -15,
       alignContent: "center",
-      justifyContent: "center"
+      justifyContent: "center",
     }
 
     return (
@@ -84,8 +109,7 @@ export class Thermostat extends React.Component<IThermostatProps, IThermostatSta
             value={this.state.editedTemperature} 
             onChange={this.updateEditedTemperature} 
             variant="standard" 
-            size="small"
-            label="Change target temperature"
+            label="Change Target Temperature"
             style={{ paddingBottom: 10, marginTop: 10 }}
             />
         </Grid>
@@ -108,8 +132,18 @@ export class Thermostat extends React.Component<IThermostatProps, IThermostatSta
   render() {
     const { temperature } = this.props.temperature;
 
-    var progressBarStyle = {
-      path: { stroke: "rgba(5,153,194,100)" }
+    var progressBarStyle: CircularProgressbarStyles = {
+      root: {
+        height: "30rem",
+        width: "30rem"
+      },
+      path: { 
+        stroke: "rgba(35,35,35,1)",
+        backgroundBlendMode: 'multiply'
+      },
+      background: {
+        fill: 'rgba(20,20,20,0.6)',
+      },
     };
 
     const divStyle: React.CSSProperties = {
@@ -123,8 +157,6 @@ export class Thermostat extends React.Component<IThermostatProps, IThermostatSta
       textAlign: 'center',
     };
 
-    const tempComponent: JSX.Element = this.temperatureComponent();
-
     return (
       <>
         <CircularProgressbar
@@ -133,13 +165,14 @@ export class Thermostat extends React.Component<IThermostatProps, IThermostatSta
           maxValue={90}
           styles={progressBarStyle}
           strokeWidth={5}
+          background={true}
         />
         <div style={divStyle}>
-          <span style={{fontSize: 25}}>Heat set to</span>
+          <span style={{fontSize: 25, userSelect:"none" }}>Heat set to</span>
           <br />
-            {tempComponent}
+            {this.renderTemperatureTargetComponent()}
           <br />
-          <span>Indoor {temperature}°</span>
+          <span style={{fontSize: 25, userSelect:"none" }}>Indoor {temperature}°</span>
         </div>
       </>
     );

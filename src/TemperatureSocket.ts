@@ -5,6 +5,11 @@ export interface ITemperatureSocketCallbacks {
     setLoadedCallback: (loaded: boolean) => void;
 }
 
+export interface ISocketAction {
+    action: string;
+    newTemperature?: number;
+}
+
 export class TemperatureSocket {
     ws?: WebSocket;
     updateTemperatureStateCallback: (newState: ITemperatureJSON) => void;
@@ -14,27 +19,30 @@ export class TemperatureSocket {
         this.updateTemperatureStateCallback = callbacks.updateTemperatureStateCallback
         this.setLoadedCallback = callbacks.setLoadedCallback;
     }
-    
+
     connect = async () => {
-        this.ws = new WebSocket("ws://localhost:3005");
+        this.ws = new WebSocket("ws://192.168.86.30:3005");
         this.ws.onopen = this.onOpenSocket;
         this.ws.onmessage = this.onMessageSocket;
     }
 
-    changeTemperatureTarget = async (newTemperature: number): Promise<boolean> => {
-        let success: boolean = false;
-        if(this.ws?.OPEN) {
-            try {
-                this.ws.send(JSON.stringify({
-                    target: newTemperature,
-                }))
-                success = true;
-            } catch(err) { }
-        }
+    getTemperatureLoop = async (): Promise<void> => {
+        this.ws?.send(JSON.stringify({ 
+            action: "GET" 
+        }))
 
-        return new Promise<boolean>((resolve, reject) => {
-            success ? resolve(true) : reject(false);
-        })
+        setInterval(() => {
+            this.ws?.send(JSON.stringify({ 
+                action: "GET" 
+            }))
+        }, 10 * 1000)
+    }
+
+    changeTemperatureTarget = async (newTemperature: number): Promise<void> => {
+        this.ws?.send(JSON.stringify({
+            action: "POST",
+            target: newTemperature
+        }));
     }
 
     onMessageSocket = async (e: any | null) => {
@@ -43,6 +51,7 @@ export class TemperatureSocket {
 
         console.log(`temperature = ${temperature}\ntarget = ${target}\non = ${on}`);
         this.updateTemperatureStateCallback({
+            action: "GET",
             temperature: temperature,
             target: target,
             on: on
@@ -52,6 +61,7 @@ export class TemperatureSocket {
     onOpenSocket = (e: any | null) => {
         console.log("Websocket connected");
         this.setLoadedCallback(true);
+        this.getTemperatureLoop();
     }
 
     onCloseSocket = (e: any | null) => {
