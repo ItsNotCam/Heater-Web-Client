@@ -1,10 +1,11 @@
 # HeaterPi
+***A Raspberry Pi powered climate control app***
+
+![Demo](https://imageupload.io/ib/mdoNAl3OJSmlscg_1696497463.gif)
 
 ## Overview
 
 HeaterPi is a full-stack web application that allows users to remotely control and monitor the temperature in a room using a Raspberry Pi. This application is built using Python, TypeScript, ReactJS, Node.js, asynchronous Websockets, and REST requests.
-
-![Demo](https://imageupload.io/ib/mdoNAl3OJSmlscg_1696497463.gif)
 
 ## Features
 
