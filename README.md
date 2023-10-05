@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# Raspberry Pi Room Temperature Control Application
+# HeaterPi
 
 [![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/cameron-young-37b173129/)
 &nbsp;
@@ -12,7 +12,7 @@
 
 ## Overview
 
-The Raspberry Pi Room Temperature Control Application is a full-stack web application that allows users to remotely control and monitor the temperature in a room using a Raspberry Pi. This application is built using Python, TypeScript, ReactJS, Node.js, asynchronous Websockets, and REST requests.
+HeaterPi is a full-stack web application that allows users to remotely control and monitor the temperature in a room using a Raspberry Pi. This application is built using Python, TypeScript, ReactJS, Node.js, asynchronous Websockets, and REST requests.
 
 
 ## Features
@@ -32,4 +32,4 @@ The Raspberry Pi Room Temperature Control Application is a full-stack web applic
 - **Asynchronous Websockets**: Asynchronous WebSockets ensure efficient real-time communication between the frontend and the Raspberry Pi.
 
 ## What I Learned
-Through my project, I developed proficiency in ReactJS, Typescript, and WebSockets in order to create this responsive web application with real-time communication capabilities. Additionally, I gained hands-on experience in leveraging Raspberry Pi for IoT applications, enabling interactive real-world interactions with physical devices.
+Throughout work on this project I broadened my understanding of ReactJS, Typescript, and WebSockets. Additionally, I gained hands-on experience in leveraging Raspberry Pi for IoT applications, enabling interactive real-world interactions with physical devices.
