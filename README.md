@@ -1,6 +1,6 @@
 # HeaterPi
 
-![Demo](https://i.imgur.com/aF9fCVu.gif)
+![Demo](https://imageupload.io/ib/mdoNAl3OJSmlscg_1696497463.gif)
 
 ## Overview
 
