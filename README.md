@@ -1,10 +1,5 @@
 # HeaterPi
 
-[![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/cameron-young-37b173129/)
-&nbsp;
-[![GitHub](https://i.stack.imgur.com/tskMh.png) GitHub](https://github.com/ItsNotCam)
-</div>
-
 ![Demo](https://i.imgur.com/aF9fCVu.gif)
 
 ## Overview
