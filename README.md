@@ -1,7 +1,7 @@
 # HeaterPi
 ***A Raspberry Pi powered climate control app***
 
-![Demo](https://imageupload.io/ib/mdoNAl3OJSmlscg_1696497463.gif)
+![Demo](https://github.com/ItsNotCam/HeaterPi-Client/assets/46014191/17f970e3-a996-4818-9caa-183e60251834)
 
 ## Overview
 
