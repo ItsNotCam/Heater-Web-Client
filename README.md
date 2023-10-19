@@ -3,7 +3,7 @@
 
 ![Demo](https://github.com/ItsNotCam/HeaterPi-Client/assets/46014191/17f970e3-a996-4818-9caa-183e60251834)
 
-**See the react app source code [here](https://components101.com/sensors/dht11-temperature-sensor#:~:text=use%20DHT11%20Sensors-,The%20DHT11%20is%20a%20commonly%20used%20Temperature%20and%20humidity%20sensor,to%20interface%20with%20other%20microcontrollers.).**
+**See the react app source code [here](https://github.com/ItsNotCam/Alarm-Web-Client).**
 
 ## Overview
 HeaterPi is a full-stack web application that allows users to remotely **control and monitor the temperature in a room** using a Raspberry Pi, a Phillips Hue Smart Plug, and a standard space heater. This application is built using **Python**, **TypeScript**, **ReactJS**, **Websockets**, and **REST**.
