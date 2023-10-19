@@ -1,9 +1,9 @@
-# HeaterPi Server
+# HeaterPi Client
 ***A Raspberry Pi powered climate control app***
 
 ![Demo](https://github.com/ItsNotCam/HeaterPi-Client/assets/46014191/17f970e3-a996-4818-9caa-183e60251834)
 
-**See the react app source code [here](https://github.com/ItsNotCam/HeaterPi-Client).**
+**See the server source code [here](https://github.com/ItsNotCam/HeaterPi-Server).**
 
 ## Overview
 HeaterPi is a full-stack web application that allows users to remotely **control and monitor the temperature in a room** using a Raspberry Pi, a Phillips Hue Smart Plug, and a standard space heater. This application is built using **Python**, **TypeScript**, **ReactJS**, **Websockets**, and **REST**.
