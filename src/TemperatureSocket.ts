@@ -1,4 +1,5 @@
 import { ITemperatureJSON } from "./App";
+import { IP } from './IP';
 
 export interface ITemperatureSocketCallbacks {
     updateTemperatureStateCallback: (newState: ITemperatureJSON) => void;
@@ -11,8 +12,7 @@ export interface ISocketAction {
 }
 
 
-const IP_ADDR: string = "ws://heaterpi:3005";
-
+const IP_ADDR: string = `ws://${IP}:3005`;
 
 export class TemperatureSocket {
     ws?: WebSocket;
