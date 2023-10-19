@@ -10,6 +10,10 @@ export interface ISocketAction {
     newTemperature?: number;
 }
 
+
+const IP_ADDR: string = "ws://heaterpi:3005";
+
+
 export class TemperatureSocket {
     ws?: WebSocket;
     updateTemperatureStateCallback: (newState: ITemperatureJSON) => void;
@@ -21,7 +25,7 @@ export class TemperatureSocket {
     }
 
     connect = async () => {
-        this.ws = new WebSocket("ws://192.168.86.30:3005");
+        this.ws = new WebSocket(IP_ADDR);
         this.ws.onopen = this.onOpenSocket;
         this.ws.onmessage = this.onMessageSocket;
     }
